@@ -17,11 +17,23 @@ func SetDefaultUser() {
 	users[user.Id] = user
 }
 
-func GetUser(userId int) (User, error) {
+func GetUsers() []User {
+	var list []User
+	for _, user := range users {
+		list = append(list, user)
+	}
+	return list
+}
 
+func GetUser(userId int) (User, error) {
 	if user, ok := users[userId]; ok {
 		return user, nil
 	}
-
 	return User{}, errors.New("El usuario no se encuentra dentro del mapa")
+}
+
+func SaveUser(user User) User {
+	user.Id = len(users) + 1
+	users[user.Id] = user
+	return user
 }

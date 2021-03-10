@@ -24,6 +24,17 @@ func SendNotFound(w http.ResponseWriter) {
 	response.Send()
 }
 
+func SendUnprocessableEntity(w http.ResponseWriter) {
+	response := CreateDefaultResponse(w)
+	response.UnprocessableEntity()
+	response.Send()
+}
+
+func (r *Response) UnprocessableEntity() {
+	r.Status = http.StatusUnprocessableEntity
+	r.Message = "UnprocessableEntity"
+}
+
 func (r *Response) NotFound() {
 	r.Status = http.StatusNotFound
 	r.Data = nil
@@ -39,7 +50,6 @@ func SendData(w http.ResponseWriter, data interface{}) {
 func (r *Response) Send() {
 	r.writer.Header().Set("Content-Type", r.contentType)
 	r.writer.WriteHeader(r.Status)
-
 	output, _ := json.Marshal(&r)
 	fmt.Fprintf(r.writer, string(output))
 }

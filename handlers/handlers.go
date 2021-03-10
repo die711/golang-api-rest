@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -9,7 +10,7 @@ import (
 )
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se obtiene todos los usuarios")
+	models.SendData(w, models.GetUsers())
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +26,15 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se crea un usuario")
+	user := models.User{}
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&user); err != nil {
+		models.SendUnprocessableEntity(w)
+	} else {
+		models.SendData(w, models.SaveUser(user))
+	}
+
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
