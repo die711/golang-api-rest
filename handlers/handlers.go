@@ -10,7 +10,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se obtiene uno usuario")
+	fmt.Fprintf(w, "Se obtiene un usuario")
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
