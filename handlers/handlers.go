@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"net/http"
 	"rest/models"
+	"strconv"
 )
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
@@ -12,11 +13,15 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+	vars := mux.Vars(r)
+	userId, _ := strconv.Atoi(vars["id"])
 
-	user := models.User{Id: 1, Username: "diego", Password: "123456"}
-	output, _ := json.Marshal(&user)
-	fmt.Fprintf(w, string(output))
+	if user, err := models.GetUser(userId); err != nil {
+		models.SendNotFound(w)
+	} else {
+		models.SendData(w, user)
+	}
+
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
