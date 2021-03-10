@@ -12,6 +12,8 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+
 	user := models.User{Id: 1, Username: "diego", Password: "123456"}
 	output, _ := json.Marshal(&user)
 	fmt.Fprintf(w, string(output))
