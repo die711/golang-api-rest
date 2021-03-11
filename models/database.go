@@ -30,7 +30,14 @@ func CreateTables() {
 func createTable(tableName, schema string) {
 	if !exitsTable(tableName) {
 		Exec(schema)
+	} else {
+		truncateTable(tableName)
 	}
+}
+
+func truncateTable(tableName string) {
+	sql := fmt.Sprintf("truncate %s", tableName)
+	Exec(sql)
 }
 
 func exitsTable(tableName string) bool {
