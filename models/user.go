@@ -44,3 +44,7 @@ func UpdateUser(user User, username, password string) User {
 	users[user.Id] = user
 	return user
 }
+
+func DeleteUser(id int) {
+	delete(users, id)
+}

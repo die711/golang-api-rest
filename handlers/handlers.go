@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"rest/models"
@@ -57,7 +56,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Se elimina un usuario")
+	if user, err := getUserByRequest(r); err != nil {
+		models.SendNotFound(w)
+	} else {
+		models.DeleteUser(user.Id)
+		models.SendNoContent(w)
+	}
+
 }
 
 func getUserByRequest(r *http.Request) (models.User, error) {

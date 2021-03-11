@@ -41,6 +41,17 @@ func (r *Response) NotFound() {
 	r.Message = "Resource not found!"
 }
 
+func SendNoContent(w http.ResponseWriter) {
+	response := CreateDefaultResponse(w)
+	response.NoContent()
+	response.Send()
+}
+
+func (r *Response) NoContent() {
+	r.Status = http.StatusNoContent
+	r.Message = "No Content."
+}
+
 func SendData(w http.ResponseWriter, data interface{}) {
 	response := CreateDefaultResponse(w)
 	response.Data = data
