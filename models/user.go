@@ -10,6 +10,13 @@ type User struct {
 	Password string `json:password`
 }
 
+const UserSchema string = `create table users(
+	id int(6) auto_increment primary key,
+    username varchar(30) not null,
+    password varchar(64) not null,
+    email varchar(40),
+    created_date timestamp default current_timestamp)`
+
 var users = make(map[int]User)
 
 func SetDefaultUser() {
