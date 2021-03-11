@@ -29,19 +29,13 @@ func CreateTables() {
 
 func createTable(tableName, schema string) {
 	if !exitsTable(tableName) {
-		_, err := db.Exec(schema)
-		if err != nil {
-			log.Println(err)
-		}
+		Exec(schema)
 	}
 }
 
 func exitsTable(tableName string) bool {
 	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", tableName)
-	rows, err := db.Query(sql)
-	if err != nil {
-		log.Println(err)
-	}
+	rows, _ := Query(sql)
 	return rows.Next()
 }
 
@@ -58,4 +52,22 @@ func CloseConnection() {
 //<username>:<password>@tcp(<host>:<port>)/<database>
 func generateURL() string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, database)
+}
+
+func Exec(query string, args ...interface{}) (sql.Result, error) {
+	result, err := db.Exec(query, args...)
+	if err != nil {
+		log.Println(err)
+	}
+	return result, err
+}
+
+func Query(query string, args ...interface{}) (*sql.Rows, error) {
+	rows, err := db.Query(query, args...)
+
+	if err != nil {
+		log.Println(err)
+	}
+	return rows, err
+
 }
