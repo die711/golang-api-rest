@@ -25,7 +25,7 @@ func init() {
 }
 
 func (d *DatabaseConfig) url() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", d.Username, d.Password, d.Host, d.Port, d.Database)
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true", d.Username, d.Password, d.Host, d.Port, d.Database)
 }
 
 //<username>:<password>@tcp(<host>:<port>)/<database>

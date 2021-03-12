@@ -1,12 +1,37 @@
 package main
 
-import "rest/models"
+import (
+	"fmt"
+	"rest/orm"
+)
 
 func main() {
 
-	models.CreateConnection()
-	models.Ping()
-	models.CreateTables()
+	orm.CreateConnection()
+	orm.CreateTables()
+
+	user := orm.NewUser("Eduardo", "123", "di_564@hotmail.com")
+
+	user.Save()
+
+	users := orm.GetUsers()
+	fmt.Println(users)
+
+	user = orm.GetUser(1)
+	user.Username = "TEST 1"
+	user.Password = "TEST 2"
+	user.Email = "TEST 3"
+	user.Save()
+
+	fmt.Println(user)
+
+	user.Delete()
+
+	orm.CloseConnection()
+
+	//models.CreateConnection()
+	//models.Ping()
+	//models.CreateTables()
 	//
 	//models.CreateUser("diego test 1", "11597", "di_564@hotmail.com")
 	//models.CreateUser("diego test 2", "11597", "di_564@hotmail.com")
