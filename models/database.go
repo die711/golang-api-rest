@@ -5,18 +5,14 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"rest/config"
 )
-
-const username string = "root"
-const password string = "11597"
-const host string = "localhost"
-const port int = 3306
-const database string = "project_go_web"
 
 var db *sql.DB
 
 func CreateConnection() {
-	if connection, err := sql.Open("mysql", generateURL()); err != nil {
+	url := config.GetUrlDatabase()
+	if connection, err := sql.Open("mysql", url); err != nil {
 		panic(err)
 	} else {
 		db = connection
@@ -54,11 +50,6 @@ func Ping() {
 
 func CloseConnection() {
 	db.Close()
-}
-
-//<username>:<password>@tcp(<host>:<port>)/<database>
-func generateURL() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, host, port, database)
 }
 
 func Exec(query string, args ...interface{}) (sql.Result, error) {

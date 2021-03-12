@@ -1,4 +1,10 @@
+github.com/eduardogpg/gonv v0.0.0-20170424170749-4299ebc60ef2 h1:eME1Y2OK4YQYT/1HA0t4jtohRIOlosj01Dm5ZCLJaZQ=
+github.com/eduardogpg/gonv v0.0.0-20170424170749-4299ebc60ef2/go.mod h1:M1hF1eWJax2rUfHsLrnX61jlFVCcUC7A6/kkIbeYzLU=
+github.com/fmorenovr/gonv v0.0.0-20190819173827-e69b167d2387 h1:dC3BCmQdfEF7TXexpD6jz+VWHHa0xEGFcYHu2mj6BJM=
+github.com/fmorenovr/gonv v0.0.0-20190819173827-e69b167d2387/go.mod h1:5wdGsDdvlNJso/rWzVlvOIp5pQ4mcGSkNVkEu4aes54=
 github.com/go-sql-driver/mysql v1.5.0 h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gGcHOs=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/jenazads/goutils v0.0.0-20190819174130-fb071435caeb h1:y6KTSfeM9aUG2RwtHceNt6TNll+Qf8AR7IVphS9nib0=
+github.com/jenazads/goutils v0.0.0-20190819174130-fb071435caeb/go.mod h1:CCJDb0H3Ku9clMVoUfqIGrmHu6UDVc2jH96FKX+VGi4=

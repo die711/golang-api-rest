@@ -1,27 +1,24 @@
 package main
 
-import (
-	"fmt"
-	"rest/models"
-)
+import "rest/models"
 
 func main() {
 
 	models.CreateConnection()
 	models.Ping()
 	models.CreateTables()
-
-	models.CreateUser("diego test 1", "11597", "di_564@hotmail.com")
-	models.CreateUser("diego test 2", "11597", "di_564@hotmail.com")
-	models.CreateUser("diego test 3", "11597", "di_564@hotmail.com")
-
-	user := models.GetUser(3)
-	fmt.Println(user)
-
-	users := models.GetUsers()
-	fmt.Println(users)
-
-	models.CloseConnection()
+	//
+	//models.CreateUser("diego test 1", "11597", "di_564@hotmail.com")
+	//models.CreateUser("diego test 2", "11597", "di_564@hotmail.com")
+	//models.CreateUser("diego test 3", "11597", "di_564@hotmail.com")
+	//
+	//user := models.GetUser(3)
+	//fmt.Println(user)
+	//
+	//users := models.GetUsers()
+	//fmt.Println(users)
+	//
+	//models.CloseConnection()
 
 	//mux := mux.NewRouter()
 	//models.SetDefaultUser()
