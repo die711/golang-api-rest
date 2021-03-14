@@ -35,12 +35,8 @@ func (u *User) Save() error {
 
 func (u *User) insert() error {
 	sql := "Insert users set username=?, password=?, email=?"
-	result, err := Exec(sql, u.Username, u.Password, u.Email)
-
-	if err != nil {
-		return err
-	}
-	u.Id, _ = result.LastInsertId()
+	id, err := InsertData(sql, u.Username, u.Password, u.Email)
+	u.Id = id
 	return err
 }
 func (u *User) update() error {

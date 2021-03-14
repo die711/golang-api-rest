@@ -18,6 +18,16 @@ func TestMain(m *testing.M) {
 func beforeTest() {
 	fmt.Println(">> Antes de las pruebas")
 	models.CreateConnection()
+	createDefaultUser()
+}
+
+func createDefaultUser() {
+	sql := fmt.Sprintf("insert users set id='%d', username = '%s', password= '%s', email ='%s'", id, username, password, email)
+	_, err := models.Exec(sql)
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func afterTest() {

@@ -8,6 +8,7 @@ import (
 )
 
 const (
+	id       = 0
 	username = "diego"
 	password = "123456"
 	email    = "di_564@hotmail.com"
@@ -38,4 +39,13 @@ func TestCreateUser(t *testing.T) {
 
 func randomUserName() string {
 	return fmt.Sprintf("%s/%d", username, rand.Intn(1000))
+}
+
+func TestUniqueUsername(t *testing.T) {
+	_, err := models.CreateUser(username, password, email)
+
+	if err == nil {
+		t.Error("Es posible insertar registros con usernames duplicados")
+	}
+
 }

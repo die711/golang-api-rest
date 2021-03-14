@@ -19,6 +19,15 @@ func GetConnection() *sql.DB {
 	return db
 }
 
+func InsertData(query string, arg ...interface{}) (int64, error) {
+	if result, err := Exec(query, arg...); err != nil {
+		return 0, err
+	} else {
+		id, err := result.LastInsertId()
+		return id, err
+	}
+}
+
 func CreateConnection() {
 
 	if GetConnection() != nil {
