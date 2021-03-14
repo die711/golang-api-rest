@@ -45,9 +45,10 @@ func (u *User) update() error {
 	return err
 }
 
-func (u *User) Delete() {
+func (u *User) Delete() error {
 	sql := "Delete from users where id=?"
-	Exec(sql, u.Id)
+	_, err := Exec(sql, u.Id)
+	return err
 }
 
 func GetUser(id int) *User {

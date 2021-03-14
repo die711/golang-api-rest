@@ -9,9 +9,11 @@ import (
 )
 
 var db *sql.DB
+var debug bool
 
 func init() {
 	CreateConnection()
+	debug = config.GetDebug()
 	CreateTables()
 }
 
@@ -77,7 +79,7 @@ func CloseConnection() {
 
 func Exec(query string, args ...interface{}) (sql.Result, error) {
 	result, err := db.Exec(query, args...)
-	if err != nil {
+	if err != nil && !debug {
 		log.Println(err)
 	}
 	return result, err
@@ -86,7 +88,7 @@ func Exec(query string, args ...interface{}) (sql.Result, error) {
 func Query(query string, args ...interface{}) (*sql.Rows, error) {
 	rows, err := db.Query(query, args...)
 
-	if err != nil {
+	if err != nil && !debug {
 		log.Println(err)
 	}
 	return rows, err

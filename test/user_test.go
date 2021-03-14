@@ -7,8 +7,10 @@ import (
 	"testing"
 )
 
+var user *models.User
+
 const (
-	id       = 0
+	id       = 1
 	username = "diego"
 	password = "123456"
 	email    = "di_564@hotmail.com"
@@ -47,5 +49,36 @@ func TestUniqueUsername(t *testing.T) {
 	if err == nil {
 		t.Error("Es posible insertar registros con usernames duplicados")
 	}
+}
 
+func TestDuplicateUsername(t *testing.T) {
+	_, err := models.CreateUser(username, password, email)
+	message := fmt.Sprintf("Error 1062: Duplicate entry '%s' for key 'users.username'", username)
+	if err.Error() != message {
+		t.Error("Username duplicado")
+	}
+}
+
+func TestGetUser(t *testing.T) {
+	user := models.GetUser(id)
+	if equalsUser(user) {
+		t.Error("No es posible obtener el usuario")
+	}
+}
+
+func TestGetUsers(t *testing.T) {
+	users := models.GetUsers()
+	if len(*users) == 0 {
+		t.Error("No es posible obtener a los usuarios")
+	}
+}
+
+func TestDeleteUser(t *testing.T) {
+	if err := user.Delete(); err != nil {
+		t.Error("No es posible eliminar al usuario")
+	}
+}
+
+func equalsUser(user *models.User) bool {
+	return user.Username != username && user.Password != password && user.Email != email
 }

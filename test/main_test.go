@@ -28,6 +28,7 @@ func createDefaultUser() {
 		panic(err)
 	}
 
+	user = &models.User{Id: id, Username: username, Password: password, Email: email}
 }
 
 func afterTest() {

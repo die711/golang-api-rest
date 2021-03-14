@@ -11,6 +11,7 @@ type DatabaseConfig struct {
 	Host     string
 	Port     int
 	Database string
+	Debug    bool
 }
 
 var database *DatabaseConfig
@@ -22,10 +23,15 @@ func init() {
 	database.Host = gonv.GetStringEnv("HOST", "localhost")
 	database.Port = gonv.GetIntEnv("HOST", 3306)
 	database.Database = gonv.GetStringEnv("DATABASE", "project_go_web")
+	database.Debug = gonv.GetBoolEnv("DEBUG", true)
 }
 
 func (d *DatabaseConfig) url() string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true", d.Username, d.Password, d.Host, d.Port, d.Database)
+}
+
+func GetDebug() bool {
+	return database.Debug
 }
 
 //<username>:<password>@tcp(<host>:<port>)/<database>
