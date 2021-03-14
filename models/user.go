@@ -1,10 +1,13 @@
 package models
 
+import "time"
+
 type User struct {
-	Id       int64  `json:"id"`
-	Username string `json:"username"`
-	Password string `json:password`
-	Email    string `json:email`
+	Id          int64  `json:"id"`
+	Username    string `json:"username"`
+	Password    string `json:password`
+	Email       string `json:email`
+	createdDate time.Time
 }
 
 const UserSchema string = `create table users(
@@ -53,11 +56,11 @@ func (u *User) Delete() error {
 
 func GetUser(id int) *User {
 	user := NewUser("", "", "")
-	sql := "select id,username,password,email from users where id=?"
+	sql := "select id,username,password,email, created_date from users where id=?"
 	rows, _ := Query(sql, id)
 
 	for rows.Next() {
-		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email)
+		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.createdDate)
 	}
 
 	return user
@@ -65,14 +68,14 @@ func GetUser(id int) *User {
 }
 
 func GetUsers() *[]User {
-	sql := "select id,username,password,email from users"
+	sql := "select id,username,password,email, created_date from users"
 	var users []User
 
 	rows, _ := Query(sql)
 
 	for rows.Next() {
 		user := User{}
-		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email)
+		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.createdDate)
 		users = append(users, user)
 	}
 

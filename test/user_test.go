@@ -5,15 +5,17 @@ import (
 	"math/rand"
 	"rest/models"
 	"testing"
+	"time"
 )
 
 var user *models.User
 
 const (
-	id       = 1
-	username = "diego"
-	password = "123456"
-	email    = "di_564@hotmail.com"
+	id          = 1
+	username    = "diego"
+	password    = "123456"
+	email       = "di_564@hotmail.com"
+	createdDate = "2017-08-17"
 )
 
 func TestNewUser(t *testing.T) {
@@ -81,4 +83,10 @@ func TestDeleteUser(t *testing.T) {
 
 func equalsUser(user *models.User) bool {
 	return user.Username != username && user.Password != password && user.Email != email
+}
+
+func equalsCreatedDate(date time.Time) bool {
+	t, _ := time.Parse("20016-01-02", createdDate)
+	return t == date
+
 }
