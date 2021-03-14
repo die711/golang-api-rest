@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e1121270-9a4a-4c8d-9941-03aa04eb8635" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/database_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/hola_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/main_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/user_test.go" afterDir="false" />
+    <list default="true" id="2804edb3-71fc-416e-8026-a92b521d0807" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +24,7 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
-  <component name="ProjectId" id="1pe4M6NUkXl7IRERoazCMT45WBC" />
+  <component name="ProjectId" id="1pYaXKrPw4UsvnEZRkbTUdiZGZI" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -46,8 +41,9 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
-  <component name="RunManager" selected="Go Test.database_test.go">
+  <component name="RunManager" selected="Go Build.go build main.go">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="golang-api-rest" />
       <working_directory value="$PROJECT_DIR$" />
@@ -57,20 +53,19 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="database_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go build rest" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="golang-api-rest" />
-      <working_directory value="$PROJECT_DIR$/test" />
-      <framework value="gotest" />
-      <kind value="FILE" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
       <package value="rest" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/test/database_test.go" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.database_test.go" />
         <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build rest" />
       </list>
     </recent_temporary>
   </component>
@@ -89,6 +84,14 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="cambios handlers" />
+    <MESSAGE value="delete" />
+    <MESSAGE value="database" />
+    <MESSAGE value="configuracion" />
+    <MESSAGE value="ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="ignore" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

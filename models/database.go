@@ -10,15 +10,6 @@ import (
 
 var db *sql.DB
 
-func init() {
-	CreateConnection()
-	CreateTables()
-}
-
-func GetConnection() *sql.DB {
-	return db
-}
-
 func CreateConnection() {
 	url := config.GetUrlDatabase()
 	if connection, err := sql.Open("mysql", url); err != nil {
