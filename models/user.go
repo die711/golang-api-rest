@@ -19,28 +19,30 @@ func NewUser(username, password, email string) *User {
 	return user
 }
 
-func CreateUser(username, password, email string) *User {
+func CreateUser(username, password, email string) (*User, error) {
 	user := NewUser(username, password, email)
-	user.Save()
-	return user
+	err := user.Save()
+	return user, err
 }
 
-func (u *User) Save() {
+func (u *User) Save() error {
 	if u.Id == 0 {
-		u.insert()
+		return u.insert()
 	} else {
-		u.update()
+		return u.update()
 	}
 }
 
-func (u *User) insert() {
+func (u *User) insert() error {
 	sql := "Insert users set username=?, password=?, email=?"
-	result, _ := Exec(sql, u.Username, u.Password, u.Email)
+	result, err := Exec(sql, u.Username, u.Password, u.Email)
 	u.Id, _ = result.LastInsertId()
+	return err
 }
-func (u *User) update() {
+func (u *User) update() error {
 	sql := "Update users set username=?, password=?, email=?"
-	Exec(sql, u.Username, u.Password, u.Email)
+	_, err := Exec(sql, u.Username, u.Password, u.Email)
+	return err
 }
 
 func (u *User) Delete() {
