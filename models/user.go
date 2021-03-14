@@ -9,7 +9,7 @@ type User struct {
 
 const UserSchema string = `create table users(
 	id int(6) auto_increment primary key,
-    username varchar(30) not null,
+    username varchar(30) not null unique,
     password varchar(64) not null,
     email varchar(40),
     created_date timestamp default current_timestamp)`
@@ -36,6 +36,10 @@ func (u *User) Save() error {
 func (u *User) insert() error {
 	sql := "Insert users set username=?, password=?, email=?"
 	result, err := Exec(sql, u.Username, u.Password, u.Email)
+
+	if err != nil {
+		return err
+	}
 	u.Id, _ = result.LastInsertId()
 	return err
 }
