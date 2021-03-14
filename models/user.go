@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"golang.org/x/crypto/bcrypt"
+	"time"
+)
 
 type User struct {
 	Id          int64  `json:"id"`
@@ -19,7 +22,14 @@ const UserSchema string = `create table users(
 
 func NewUser(username, password, email string) *User {
 	user := &User{Username: username, Password: password, Email: email}
+	user.SetPassword(password)
 	return user
+}
+
+func (u *User) SetPassword(password string) {
+	hash, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	u.Password = string(hash)
+
 }
 
 func CreateUser(username, password, email string) (*User, error) {
@@ -64,13 +74,29 @@ func GetUser(id int) *User {
 	}
 
 	return user
+}
 
+func GetUserByUsername(username string) *User {
+	user := NewUser("", "", "")
+	sql := "select id,username,password,email, created_date from users where username=?"
+	rows, _ := Query(sql, username)
+
+	for rows.Next() {
+		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.createdDate)
+	}
+
+	return user
+}
+
+func Login(username, password string) bool {
+	user := GetUserByUsername(username)
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	return err == nil
 }
 
 func GetUsers() *[]User {
 	sql := "select id,username,password,email, created_date from users"
 	var users []User
-
 	rows, _ := Query(sql)
 
 	for rows.Next() {
@@ -80,5 +106,4 @@ func GetUsers() *[]User {
 	}
 
 	return &users
-
 }
