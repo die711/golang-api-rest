@@ -15,7 +15,7 @@ type User struct {
 	createdDate time.Time
 }
 
-var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-][email protected][a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 const UserSchema string = `create table users(
 	id int(6) auto_increment primary key,
@@ -112,4 +112,8 @@ func GetUsers() *[]User {
 	}
 
 	return &users
+}
+
+func ValidEmail(email string) bool {
+	return emailRegexp.MatchString(email)
 }

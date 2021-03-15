@@ -15,7 +15,7 @@ const (
 	username     = "diego"
 	password     = "123456"
 	passwordHash = "$2a$10$kXtp3BA34HJdlOTA24f/YeeifGZmPr9kyo.o4moGnsBMUALbFrEq2"
-	email        = "di_564@hotmail.com"
+	email        = "eduardo@codigofacilito.com"
 	createdDate  = "2017-08-17"
 )
 
@@ -109,5 +109,17 @@ func TestNoLogin(t *testing.T) {
 func TestDeleteUser(t *testing.T) {
 	if err := user.Delete(); err != nil {
 		t.Error("No es posible eliminar al usuario")
+	}
+}
+
+func TestValidEmail(t *testing.T) {
+	if valid := models.ValidEmail("di_564@hotmail.com"); !valid {
+		t.Error("Validacion erronea en el email")
+	}
+}
+
+func TestInValidEmail(t *testing.T) {
+	if valid := models.ValidEmail("asdasdsadasd.com"); valid {
+		t.Error("Validacion erronea en el email")
 	}
 }
