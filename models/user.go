@@ -1,7 +1,9 @@
 package models
 
 import (
+	"fmt"
 	"golang.org/x/crypto/bcrypt"
+	"regexp"
 	"time"
 )
 
@@ -12,6 +14,8 @@ type User struct {
 	Email       string `json:email`
 	createdDate time.Time
 }
+
+var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-][email protected][a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 const UserSchema string = `create table users(
 	id int(6) auto_increment primary key,
@@ -90,8 +94,10 @@ func GetUserByUsername(username string) *User {
 
 func Login(username, password string) bool {
 	user := GetUserByUsername(username)
+	fmt.Println(user)
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	return err == nil
+
 }
 
 func GetUsers() *[]User {

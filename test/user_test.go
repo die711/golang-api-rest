@@ -14,7 +14,7 @@ const (
 	id           = 1
 	username     = "diego"
 	password     = "123456"
-	passwordHash = "'$2a$10$kXtp3BA34HJdlOTA24f/YeeifGZmPr9kyo.o4moGnsBMUALbFrEq2'"
+	passwordHash = "$2a$10$kXtp3BA34HJdlOTA24f/YeeifGZmPr9kyo.o4moGnsBMUALbFrEq2"
 	email        = "di_564@hotmail.com"
 	createdDate  = "2017-08-17"
 )
@@ -92,20 +92,22 @@ func TestPassword(t *testing.T) {
 	}
 }
 
-func TestDeleteUser(t *testing.T) {
-	if err := user.Delete(); err != nil {
-		t.Error("No es posible eliminar al usuario")
+func TestLogin(t *testing.T) {
+	if valid := models.Login(username, password); !valid {
+		t.Error("No es posible realizar el login")
 	}
-}
 
-//func TestLogin(t *testing.T) {
-//	if valid := models.Login(username, password); !valid {
-//		t.Error("No es posible realizar el login")
-//	}
-//}
+}
 
 func TestNoLogin(t *testing.T) {
 	if valid := models.Login(randomUserName(), password); valid {
-		t.Error("Es posible realizar un login con parametros erroneos")
+		t.Error("No es posible realizar el login")
+	}
+
+}
+
+func TestDeleteUser(t *testing.T) {
+	if err := user.Delete(); err != nil {
+		t.Error("No es posible eliminar al usuario")
 	}
 }
