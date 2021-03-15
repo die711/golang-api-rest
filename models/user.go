@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"regexp"
@@ -20,25 +21,34 @@ var emailRegexp = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-
 const UserSchema string = `create table users(
 	id int(6) auto_increment primary key,
     username varchar(30) not null unique,
-    password varchar(64) not null,
+    password varchar(60) not null,
     email varchar(40),
     created_date timestamp default current_timestamp)`
 
-func NewUser(username, password, email string) *User {
+func NewUser(username, password, email string) (*User, error) {
 	user := &User{Username: username, Password: password, Email: email}
-	user.SetPassword(password)
-	return user
+	if err := user.Valid(); err != nil {
+		return &User{}, err
+	}
+	err := user.SetPassword(password)
+	return user, err
 }
 
-func (u *User) SetPassword(password string) {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+func (u *User) SetPassword(password string) error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return errors.New("No es posible cifrar el password")
+	}
 	u.Password = string(hash)
-
+	return nil
 }
 
 func CreateUser(username, password, email string) (*User, error) {
-	user := NewUser(username, password, email)
-	err := user.Save()
+	user, err := NewUser(username, password, email)
+	if err != nil {
+		return &User{}, err
+	}
+	err = user.Save()
 	return user, err
 }
 
@@ -68,10 +78,12 @@ func (u *User) Delete() error {
 	return err
 }
 
-func GetUser(id int) *User {
-	user := NewUser("", "", "")
-	sql := "select id,username,password,email, created_date from users where id=?"
-	rows, _ := Query(sql, id)
+func GetUser(sql string, conditional interface{}) *User {
+	user := &User{}
+	rows, err := Query(sql, conditional)
+	if err != nil {
+		return user
+	}
 
 	for rows.Next() {
 		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.createdDate)
@@ -80,16 +92,14 @@ func GetUser(id int) *User {
 	return user
 }
 
+func GetUserById(id int) *User {
+	sql := "select id,username,password,email, created_date from users where id=?"
+	return GetUser(sql, id)
+}
+
 func GetUserByUsername(username string) *User {
-	user := NewUser("", "", "")
 	sql := "select id,username,password,email, created_date from users where username=?"
-	rows, _ := Query(sql, username)
-
-	for rows.Next() {
-		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.createdDate)
-	}
-
-	return user
+	return GetUser(sql, username)
 }
 
 func Login(username, password string) bool {
@@ -97,7 +107,6 @@ func Login(username, password string) bool {
 	fmt.Println(user)
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	return err == nil
-
 }
 
 func GetUsers() *[]User {
@@ -114,6 +123,27 @@ func GetUsers() *[]User {
 	return &users
 }
 
-func ValidEmail(email string) bool {
-	return emailRegexp.MatchString(email)
+func ValidEmail(email string) error {
+	if !emailRegexp.MatchString(email) {
+		return errors.New("Formato de email invalido")
+	}
+	return nil
+}
+func (u *User) Valid() error {
+	if err := ValidEmail(u.Email); err != nil {
+		return err
+	}
+
+	if err := ValidUsername(u.Username); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ValidUsername(username string) error {
+	if len(username) > 30 {
+		return errors.New("username muy largo, maximo 30 caracteres")
+	}
+	return nil
 }

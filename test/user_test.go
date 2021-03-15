@@ -20,15 +20,14 @@ const (
 )
 
 func TestNewUser(t *testing.T) {
-	user := models.NewUser(username, password, email)
-
-	if !equalsUser(user) {
-		t.Error("No es posible crear el objeto")
+	_, err := models.NewUser(username, password, email)
+	if err != nil {
+		t.Error("No es posible crear el objeto", err)
 	}
 }
 
 func TestSave(t *testing.T) {
-	user := models.NewUser(randomUserName(), password, email)
+	user, _ := models.NewUser(randomUserName(), password, email)
 	if err := user.Save(); err != nil {
 		t.Error("No es posible crear el usuario", err)
 	}
@@ -63,7 +62,7 @@ func TestDuplicateUsername(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	user := models.GetUser(id)
+	user := models.GetUserById(id)
 	if !equalsUser(user) {
 		t.Error("No es posible obtener el usuario")
 	}
@@ -86,7 +85,7 @@ func equalsCreatedDate(date time.Time) bool {
 }
 
 func TestPassword(t *testing.T) {
-	user := models.NewUser(username, password, email)
+	user, _ := models.NewUser(username, password, email)
 	if user.Password == password || len(user.Password) != 60 {
 		t.Error("No es posible cifrar el password")
 	}
@@ -106,20 +105,35 @@ func TestNoLogin(t *testing.T) {
 
 }
 
+func TestValidEmail(t *testing.T) {
+	if err := models.ValidEmail("di_564@hotmail.com"); err != nil {
+		t.Error("Validacion erronea en el email", err)
+	}
+}
+
+func TestInValidEmail(t *testing.T) {
+	if err := models.ValidEmail("asdasdsadasd.com"); err == nil {
+		t.Error("Validacion erronea en el email", err)
+	}
+}
+
 func TestDeleteUser(t *testing.T) {
 	if err := user.Delete(); err != nil {
 		t.Error("No es posible eliminar al usuario")
 	}
 }
 
-func TestValidEmail(t *testing.T) {
-	if valid := models.ValidEmail("di_564@hotmail.com"); !valid {
-		t.Error("Validacion erronea en el email")
-	}
-}
+func TestUsernameLenght(t *testing.T) {
+	newUsername := username
 
-func TestInValidEmail(t *testing.T) {
-	if valid := models.ValidEmail("asdasdsadasd.com"); valid {
-		t.Error("Validacion erronea en el email")
+	for i := 0; i < 10; i++ {
+		newUsername += newUsername
 	}
+
+	_, err := models.NewUser(newUsername, password, email)
+
+	if err == nil || err.Error() != "username muy largo, maximo 30 caracteres" {
+		t.Error("Es posbile generar un usuario con un username muy grande")
+	}
+
 }
