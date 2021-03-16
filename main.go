@@ -14,7 +14,9 @@ func main() {
 
 	mux.HandleFunc("/", handlers.Index)
 	mux.HandleFunc("/users/new", handlers.NewUser).Methods("GET", "POST")
-	mux.HandleFunc("/users/edit", handlers.UpdateUser).Methods("GET", "POST")
+
+	editHandler := handlers.Authentication(handlers.UpdateUser)
+	mux.Handle("/users/edit", editHandler).Methods("GET", "POST")
 	mux.HandleFunc("/users/login", handlers.Login).Methods("GET", "POST")
 	mux.HandleFunc("/users/logout", handlers.Logout).Methods("GET", "POST")
 	mux.HandleFunc("/api/v1/users/", v1.GetUsers).Methods("GET")

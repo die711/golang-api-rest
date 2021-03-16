@@ -44,10 +44,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	if !utils.IsAuthenticated(r) {
-		http.Redirect(w, r, "/users/login", http.StatusSeeOther)
-		return
-	}
 
 	utils.RenderTemplate(w, "users/edit", nil)
 }
