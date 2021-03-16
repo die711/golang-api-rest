@@ -67,8 +67,8 @@ func (u *User) insert() error {
 	return err
 }
 func (u *User) update() error {
-	sql := "Update users set username=?, password=?, email=?"
-	_, err := Exec(sql, u.Username, u.Password, u.Email)
+	sql := "Update users set username=?, password=?, email=? where id=?"
+	_, err := Exec(sql, u.Username, u.Password, u.Email, u.Id)
 	return err
 }
 

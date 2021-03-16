@@ -13,7 +13,7 @@ var debug bool
 
 func init() {
 	CreateConnection()
-	debug = config.GetDebug()
+	debug = config.Debug()
 	CreateTables()
 }
 
@@ -36,7 +36,7 @@ func CreateConnection() {
 		return
 	}
 
-	url := config.GetUrlDatabase()
+	url := config.UrlDatabase()
 	if connection, err := sql.Open("mysql", url); err != nil {
 		panic(err)
 	} else {
