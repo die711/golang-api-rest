@@ -5,12 +5,15 @@ import (
 	"log"
 	"net/http"
 	"rest/config"
+	"rest/handlers"
 	"rest/handlers/api/v1"
 )
 
 func main() {
 
 	mux := mux.NewRouter()
+
+	mux.HandleFunc("/", handlers.Index)
 
 	mux.HandleFunc("/api/v1/users/", v1.GetUsers).Methods("GET")
 	mux.HandleFunc("/api/v1/users/{id:[0-9]+}", v1.GetUser).Methods("GET")

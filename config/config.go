@@ -43,6 +43,14 @@ func init() {
 
 }
 
+func DirTemplate() string {
+	return "templates/**/*.html"
+}
+
+func DirTemplateError() string {
+	return "templates/error.html"
+}
+
 func (d *DatabaseConfig) url() string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true", d.username, d.password, d.host, d.port, d.database)
 }
