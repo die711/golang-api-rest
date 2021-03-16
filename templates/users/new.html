@@ -6,6 +6,9 @@
     <title>Title</title>
 </head>
 <body>
+{{if .Error}}
+<p>{{.Error}}asdsd</p>
+{{end}}
 <form method="post" action="#">
     <label>Username:</label>
     <input type="text" id="Username" placeholder="Ingrese username" name="username">

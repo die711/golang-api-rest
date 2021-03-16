@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"regexp"
@@ -37,7 +36,7 @@ func NewUser(username, password, email string) (*User, error) {
 func (u *User) SetPassword(password string) error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return errors.New("No es posible cifrar el password")
+		return errorPasswordEncryption
 	}
 	u.Password = string(hash)
 	return nil
@@ -125,7 +124,7 @@ func GetUsers() *[]User {
 
 func ValidEmail(email string) error {
 	if !emailRegexp.MatchString(email) {
-		return errors.New("Formato de email invalido")
+		return errorEmail
 	}
 	return nil
 }
@@ -142,8 +141,17 @@ func (u *User) Valid() error {
 }
 
 func ValidUsername(username string) error {
-	if len(username) > 30 {
-		return errors.New("username muy largo, maximo 30 caracteres")
+	if username == "" {
+		return errorUsername
 	}
+
+	if len(username) > 30 {
+		return errorLargeUsername
+	}
+
+	if len(username) < 5 {
+		return errorShortUsername
+	}
+
 	return nil
 }
