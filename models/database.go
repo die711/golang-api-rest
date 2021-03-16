@@ -52,7 +52,7 @@ func createTable(tableName, schema string) {
 	if !exitsTable(tableName) {
 		Exec(schema)
 	} else {
-		truncateTable(tableName)
+		//truncateTable(tableName)
 	}
 }
 

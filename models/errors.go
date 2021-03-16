@@ -10,4 +10,5 @@ var (
 	errorLargeUsername      = ValidationError(errors.New("El username es demasiado largo."))
 	errorEmail              = ValidationError(errors.New("Formate invalido de Email."))
 	errorPasswordEncryption = ValidationError(errors.New("No es posible cifrar el texto."))
+	errorLogin              = ValidationError(errors.New("Usuario o password incorrectos"))
 )
