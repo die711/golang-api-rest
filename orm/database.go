@@ -9,7 +9,7 @@ import (
 var db *gorm.DB
 
 func CreateConnection() {
-	connection, _ := gorm.Open(mysql.Open(config.GetUrlDatabase()), &gorm.Config{})
+	connection, _ := gorm.Open(mysql.Open(config.UrlDatabase()), &gorm.Config{})
 
 	db = connection
 }

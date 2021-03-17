@@ -3,6 +3,8 @@ package utils
 import (
 	uuid "github.com/satori/go.uuid"
 	"net/http"
+	"rest/models"
+	"sync"
 	"time"
 )
 
@@ -11,10 +13,20 @@ const (
 	cookiExpires = 24 * 2 * time.Hour // dos dias
 )
 
-func SetSession(w http.ResponseWriter) {
+var Sessions = struct {
+	m map[string]*models.User
+	sync.RWMutex
+}{m: make(map[string]*models.User)}
+
+func SetSession(user *models.User, w http.ResponseWriter) {
+	Sessions.Lock()
+	defer Sessions.Unlock()
+	uuid := uuid.NewV4().String()
+	Sessions.m[uuid] = user
+
 	cookie := &http.Cookie{
 		Name:    cookieName,
-		Value:   uuid.NewV4().String(),
+		Value:   uuid,
 		Path:    "/",
 		Expires: time.Now().Add(cookiExpires),
 	}
@@ -40,4 +52,18 @@ func getValCookie(r *http.Request) string {
 
 func IsAuthenticated(r *http.Request) bool {
 	return getValCookie(r) != ""
+}
+
+func GetUser(r *http.Request) *models.User {
+	Sessions.Lock()
+	defer Sessions.Unlock()
+
+	uuid := getValCookie(r)
+
+	if user, ok := Sessions.m[uuid]; ok {
+		return user
+	}
+
+	return &models.User{}
+
 }

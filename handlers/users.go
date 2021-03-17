@@ -28,10 +28,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		if _, err := models.Login(username, password); err != nil {
+		if user, err := models.Login(username, password); err != nil {
 			context["Error"] = err.Error()
 		} else {
-			utils.SetSession(w)
+			utils.SetSession(user, w)
 			fmt.Println("Estas autenticado")
 		}
 	}
@@ -44,6 +44,9 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	context := make(map[string]interface{})
+	user := utils.GetUser(r)
+	context["User"] = user
+	utils.RenderTemplate(w, "users/edit", context)
 
-	utils.RenderTemplate(w, "users/edit", nil)
 }

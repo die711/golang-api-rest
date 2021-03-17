@@ -11,11 +11,10 @@
 {{end}}
 <form method="post" action="#">
     <label>Username:</label>
-    <input type="text" id="Username" placeholder="Ingrese username" name="username">
+    <input type="text" id="Username" placeholder="Ingrese username" name="username" value="{{.User.Username}}">
     <label>Email:</label>
-    <input type="text" id="Email" placeholder="Ingrese email" name="email">
-    <label>Password:</label>
-    <input type="text" id="Password" placeholder="Ingrese password" name="password">
+    <input type="text" id="Email" placeholder="Ingrese email" name="email" value="{{.User.Email}}">
+
     <button type="submit">Registro</button>
 
 </form>

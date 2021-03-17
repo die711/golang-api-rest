@@ -16,6 +16,8 @@ func main() {
 	mux.HandleFunc("/users/new", handlers.NewUser).Methods("GET", "POST")
 
 	editHandler := handlers.Authentication(handlers.UpdateUser)
+	editHandler = handlers.MiddlewareTwo(editHandler)
+
 	mux.Handle("/users/edit", editHandler).Methods("GET", "POST")
 	mux.HandleFunc("/users/login", handlers.Login).Methods("GET", "POST")
 	mux.HandleFunc("/users/logout", handlers.Logout).Methods("GET", "POST")
