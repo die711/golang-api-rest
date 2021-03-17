@@ -33,7 +33,12 @@ func SetSession(user *models.User, w http.ResponseWriter) {
 	http.SetCookie(w, cookie)
 }
 
-func DeleteSession(w http.ResponseWriter) {
+func DeleteSession(w http.ResponseWriter,r *http.Request) {
+	Sessions.Lock()
+	defer Sessions.Unlock()
+
+	delete(Sessions.m, getValCookie(r))
+
 	cookie := &http.Cookie{
 		Name:   cookieName,
 		Value:  "",

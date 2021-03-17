@@ -39,7 +39,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-	utils.DeleteSession(w)
+	utils.DeleteSession(w, r)
 	http.Redirect(w, r, "/users/login", http.StatusSeeOther)
 }
 
